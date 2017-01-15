@@ -11,6 +11,13 @@
 </head>
 <body>
     <header></header>
+    <div class="category-warp">
+        <ul>
+            {% for cat in category_list %}
+            <li><a href="{% url 'blog:category' cat.pk %}">{{cat.pk}}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
     <div class="index-content">
         {% for article in article_list %}
         <section class="item_warp">

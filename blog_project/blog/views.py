@@ -32,7 +32,19 @@ class ArticleDetailView(DetailView):
         return obj
 
 class CategoryView(ListView):
-    pass    
+    template_name = 'blog/index.html'
+    context_object_name = 'article_list'
+
+    def get_queryset(self):
+        article_list = Article.objects.filter(category=self.kwargs['cate_id'], status = 'P')
+        for article in article_list:
+            article.body = markdown2.markdown(article.body)
+        return article_list
+
+    def get_context_data(self, **kwargs):
+        kwargs['category_list'] = Category.objects.all().order_by('name')
+        return super(CategoryView, self).get_context_data(**kwargs)
+
 
 def aaa(self, article_id):
     return article_id
