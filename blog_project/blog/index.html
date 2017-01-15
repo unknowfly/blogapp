@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nopa's Blog</title>
+</head>
+<body>
+    <header></header>
+    <div class="index-content">
+        {% for article in article_list %}
+        <section>
+            {{ article.title}}
+            {{ article.body}}
+        </section>
+        {% endfor %}
+    </div>
+    <footer></footer>
+</body>
+</html>

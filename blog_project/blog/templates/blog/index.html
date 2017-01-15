@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nopa's Blog</title>
+    <style type="text/css">
+        .item_warp{
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <header></header>
+    <div class="index-content">
+        {% for article in article_list %}
+        <section class="item_warp">
+            <h1><a href="{% url 'blog:detail' article_id=article.pk %}">{{ article.title}}</a></h1>
+            <p>{{ article.pk}}</p>
+            <p>{{ article.created_time}}</p>
+        </section>
+        {% endfor %}
+    </div>
+    <footer></footer>
+</body>
+</html>
