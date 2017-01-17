@@ -2,11 +2,13 @@ from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from models import *
+from django.http import HttpResponse
+
 import markdown2
 # Create your views here.
 
 class IndexView(ListView):
-    template_name = 'blog/index.html'
+    template_name = 'blog/index-p.html'
     context_object_name = 'article_list'
 
     def get_queryset(self):
@@ -46,5 +48,14 @@ class CategoryView(ListView):
         return super(CategoryView, self).get_context_data(**kwargs)
 
 
-def aaa(self, article_id):
-    return article_id
+def insertdata(self):
+    i = 2
+    while i < 100:
+        passage = Article()
+        passage.title = 'Passage' + str(i)
+        passage.body = 'PPPPPPPPPPPPPPPPPPPPPPPP'
+        passage.abstract = 'Passage' + str(i)
+        passage.status = 'p'
+        passage.save()
+        i += 1
+    return HttpResponse("<p>complete</p>")

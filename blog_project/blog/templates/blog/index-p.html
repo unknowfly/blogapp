@@ -1,0 +1,34 @@
+{% load paginate_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nopa's Blog</title>
+    <style type="text/css">
+        .item_warp{
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <header></header>
+    <div class="category-warp">
+        <ul>
+        </ul>
+    </div>
+    <div class="index-content">
+        {% paginate article_list 8 %}
+        {% for article in article_list %}
+        <section class="item_warp">
+            <h1><a href="{% url 'blog:detail' article_id=article.pk %}">{{ article.title}}</a></h1>
+            <p>{{ article.pk}}</p>
+            <p>{{ article.created_time}}</p>
+        </section>
+        {% endfor %}
+
+    </div>
+    <footer>
+    {% include 'blog/pagination.html'%}
+    </footer>
+</body>
+</html>
