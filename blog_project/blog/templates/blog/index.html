@@ -18,6 +18,13 @@
             {% endfor %}
         </ul>
     </div>
+    <div class="tags-warp">
+        <ul>
+            {% for tag in tag_list %}
+            <li><a href="{% url 'blog:tag' tag.pk %}">{{tag.name}}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
     <div class="index-content">
         {% for article in article_list %}
         <section class="item_warp">

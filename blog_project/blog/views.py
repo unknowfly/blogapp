@@ -8,7 +8,7 @@ import markdown2
 # Create your views here.
 
 class IndexView(ListView):
-    template_name = 'blog/index-p.html'
+    template_name = 'blog/index.html'
     context_object_name = 'article_list'
 
     def get_queryset(self):
@@ -19,6 +19,7 @@ class IndexView(ListView):
 
     def get_context_data(self, **kwargs):
         kwargs['category_list'] = Category.objects.all().order_by('name')
+        kwargs['tag_list'] = Tag.objects.all().order_by('name')
         return super(IndexView, self).get_context_data(**kwargs)
 
 class ArticleDetailView(DetailView):
@@ -47,6 +48,19 @@ class CategoryView(ListView):
         kwargs['category_list'] = Category.objects.all().order_by('name')
         return super(CategoryView, self).get_context_data(**kwargs)
 
+class TagView(ListView):
+    template_name = 'blog/index.html'
+    context_object_name = 'article_list'
+
+    def get_queryset(self):
+        article_list = Article.objects.filter(tags = self.kwargs['tag_id'], status = 'P')
+        for article in article_list:
+            article.body = markdown2.markdown(article.body)
+        return article_list
+
+    def get_context_data(self, **kwargs):
+        kwargs['tag_list'] = Tag.objects.all().order_by('name')
+        return super(TagView, self).get_context_data(**kwargs)
 
 def insertdata(self):
     i = 2
