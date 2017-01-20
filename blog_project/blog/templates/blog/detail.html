@@ -4,4 +4,11 @@
 <p>{{ article.title}}</p>
 <p>{{ article.body}}</p>
 <p>{{ article.created_time}}</p>
+
+
+<div>
+     {% include 'blog/comment.html' %}
+    <p>aa</p>
+</div>
+
 {% endblock content %}

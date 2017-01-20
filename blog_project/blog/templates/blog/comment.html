@@ -1,0 +1,19 @@
+<div>
+    <form method="POST" action="{% url 'blog:comment' article.pk %}">
+        {% csrf_token%}
+        {% for f in form %}
+        {{f}}
+        {{f.errors}}
+        {% endfor %}
+
+        <input type="submit">
+    </form>
+
+    <div>
+        {% for c in comment_list%}
+        <p>{{ c.user_name }}</p>
+        <p> {{c.created_time}} </p>
+        <p>{{ c.body }}</p>
+        {% endfor %}
+    </div>
+</div>

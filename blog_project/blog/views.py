@@ -3,7 +3,10 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from models import *
 from django.http import HttpResponse
-
+from django.views.generic.edit import FormView
+from form import *
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect 
 import markdown2
 # Create your views here.
 
@@ -33,6 +36,12 @@ class ArticleDetailView(DetailView):
         obj = super(ArticleDetailView, self).get_object()
         obj.body = markdown2.markdown(obj.body)
         return obj
+
+    def get_context_data(self, **kwargs):
+        kwargs['comment_list'] = self.object.blogcomment_set.all()
+        kwargs['form'] = BlogCommentForm()
+        return super(ArticleDetailView, self).get_context_data(**kwargs)
+
 
 class CategoryView(ListView):
     template_name = 'blog/index.html'
@@ -73,3 +82,29 @@ def insertdata(self):
         passage.save()
         i += 1
     return HttpResponse("<p>complete</p>")
+
+class CommentPostView(FormView):
+    form_class = BlogCommentForm
+    template_name = 'blog/detail.html'
+
+    def form_valid(self, form):
+        target_article = get_object_or_404(Article, pk=self.kwargs['article_id'])
+
+        comment = form.save(commit = False)
+
+        comment.article = target_article
+        comment.save()
+
+        self.success_url = target_article.get_absolute_url()
+        return HttpResponseRedirect(self.success_url)
+        # HttpResponse("<p>complete</p>")
+
+    def form_invalid(self, form):
+        target_article = get_object_or_404(Article, pk=self.kwargs['article_id'])
+
+        return render(self.request, 'blog/detail.html',{
+            'form': form,
+            'article': target_article,
+            'comment_list': target_article.blogcomment_set.all()
+            })
+
